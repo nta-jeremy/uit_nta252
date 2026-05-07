@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Bài Tập Chuyển Đổi Mô Hình ER</title>
+    <!-- Sử dụng thư viện Viz.js để render Graphviz DOT script sang SVG -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/viz.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viz.js/2.1.2/full.render.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; color: #333; max-width: 1200px; margin: auto; padding: 20px; }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+        h2 { color: #0056b3; margin-top: 40px; }
+        h3 { color: #d35400; }
+        .schema {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-left: 5px solid #0056b3;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .pk { text-decoration: underline; font-weight: bold; color: #2980b9; }
+        .fk { font-style: italic; color: #c0392b; }
+        .diagram { margin: 20px 0; text-align: center; border: 1px solid #ddd; padding: 20px; background: #fff; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow-x: auto; }
+        .note { font-size: 14px; color: #555; background: #eef; padding: 10px; border-radius: 4px; display: inline-block; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>BÀI TẬP CHUYỂN ĐỔI ER SANG MÔ HÌNH QUAN HỆ</h1>
+    
+    <div class="note">
+        <b>Chú thích mô hình quan hệ:</b><br>
+        - <span class="pk">Thuộc tính gạch dưới màu xanh</span> là Khóa chính (Primary Key).<br>
+        - <span class="fk">Thuộc tính in nghiêng màu đỏ</span> là Khóa ngoại (Foreign Key).
+    </div>
+
+    <!-- BÀI 1 -->
+    <h2>Bài 1: Quản lý công trình</h2>
+    <h3>1. Mô hình Thực thể Mối kết hợp (ER)</h3>
+    <div id="er1" class="diagram">Đang tải biểu đồ...</div>
+    <h3>2. Mô hình Quan hệ</h3>
+    <div class="schema">
+        PHONGBAN(<span class="pk">MAPB</span>, TENPB)<br><br>
+        NHANVIEN(<span class="pk">MANV</span>, HOTEN, NGSINH, PHAI, DIACHI, <span class="fk">MAPB</span>)<br><br>
+        CONGTRINH(<span class="pk">MACT</span>, TENCT, DIADIEM, NGAYCAPGP, NGAYKC, NGAYHT)<br><br>
+        PHANCONG(<span class="pk"><span class="fk">MANV</span>, <span class="fk">MACT</span></span>, SLNGAYCONG)
+    </div>
+
+    <!-- BÀI 2 -->
+    <h2>Bài 2: Quản lý nhân sự trường Đại học CNTT</h2>
+    <h3>1. Mô hình Thực thể Mối kết hợp (ER)</h3>
+    <div id="er2" class="diagram">Đang tải biểu đồ...</div>
+    <h3>2. Mô hình Quan hệ</h3>
+    <div class="schema">
+        CANBO(<span class="pk">MACB</span>, TEN, TUOI, DIACHI, DIENTHOAI, TEN_VOCHONG)<br><br>
+        CONCAI(<span class="pk">MACON</span>, TEN, NGAYSINH, GIOITINH, <span class="fk">MACB</span>)<br><br>
+        THANHTICH(<span class="pk">MATHANHTICH</span>, NAMHOC, THANHTICH, GIAITHUONG, <span class="fk">MACON</span>)
+    </div>
+
+    <!-- BÀI 3 -->
+    <h2>Bài 3: Quản lý hệ thống sản xuất xí nghiệp chế biến hải sản</h2>
+    <h3>1. Mô hình Thực thể Mối kết hợp (ER)</h3>
+    <div id="er3" class="diagram">Đang tải biểu đồ...</div>
+    <h3>2. Mô hình Quan hệ</h3>
+    <div class="schema">
+        MATHANG(<span class="pk">MASOMH</span>, TENMH, MOTA, DONVITINH, LOAIMATHANG)<br><br>
+        NGUYENVATLIEU(<span class="pk">MASONVL</span>, TENNVL, MOTA, DONVITINH, SOLUONGTON)<br><br>
+        NHACUNGCAP(<span class="pk">MASONCC</span>, TENNCC, DIACHI)<br><br>
+        NGUOIDAIDIEN(<span class="pk">MADD</span>, TEN, SDT, <span class="fk">MASONCC</span>)<br><br>
+        CUNGCAP_NVL(<span class="pk"><span class="fk">MASONCC</span>, <span class="fk">MASONVL</span></span>, GIA)<br><br>
+        DINHMUC_NVL(<span class="pk"><span class="fk">MASOMH</span>, <span class="fk">MASONVL</span></span>, SOLUONG, NGAYCAPNHAT)<br><br>
+        PHANXUONG(<span class="pk">MAPX</span>, TENPX)<br><br>
+        LENHSANXUAT(<span class="pk">MALSX</span>, NGAYVIETLENH, <span class="fk">MAPX</span>)<br><br>
+        CHITIET_LSX(<span class="pk"><span class="fk">MALSX</span>, <span class="fk">MASOMH</span></span>, SOLUONG)<br><br>
+        PHIEUXUATKHO(<span class="pk">MAPXK</span>, NGAYXUAT, <span class="fk">MALSX</span>, <span class="fk">MAPX</span>)<br><br>
+        CHITIET_PXK(<span class="pk"><span class="fk">MAPXK</span>, <span class="fk">MASONVL</span></span>, SOLUONGXUAT)<br><br>
+        PHIEUNHAPKHO(<span class="pk">MAPNK</span>, NGAYNHAP, <span class="fk">MAPX</span>)<br><br>
+        CHITIET_PNK(<span class="pk"><span class="fk">MAPNK</span>, <span class="fk">MASOMH</span></span>, SOLUONG_THUCTE, SOLUONG_CHENHLECH)<br><br>
+        PHIEUNHAP_THUA(<span class="pk">MAPNT</span>, NGAYNHAP, <span class="fk">MAPX</span>)<br><br>
+        CHITIET_PNT(<span class="pk"><span class="fk">MAPNT</span>, <span class="fk">MASONVL</span></span>, SOLUONG_THUA)
+    </div>
+
+    <script>
+        var viz = new Viz();
+
+        // Biểu đồ Bài 1
+        const dot1 = `
+graph G1 {
+    rankdir=LR;
+    node [shape=box, fontname="Arial", style=filled, fillcolor="#e1f5fe", margin="0.2,0.1"]; PHONGBAN; NHANVIEN; CONGTRINH;
+    node [shape=ellipse, fontname="Arial", style=filled, fillcolor="#fff3e0", margin="0.1,0.05"];
+    MAPB [label=<<U>MAPB</U>>]; TENPB;
+    MANV [label=<<U>MANV</U>>]; HOTEN; NGSINH; PHAI; DIACHI;
+    MACT [label=<<U>MACT</U>>]; TENCT; DIADIEM; NGAYCAPGP; NGAYKC; NGAYHT;
+    SLNGAYCONG;
+    node [shape=diamond, fontname="Arial", style=filled, fillcolor="#e8f5e9", margin="0.1,0.1"]; THUOC; PHANCONG;
+
+    PHONGBAN -- MAPB; PHONGBAN -- TENPB;
+    NHANVIEN -- MANV; NHANVIEN -- HOTEN; NHANVIEN -- NGSINH; NHANVIEN -- PHAI; NHANVIEN -- DIACHI;
+    CONGTRINH -- MACT; CONGTRINH -- TENCT; CONGTRINH -- DIADIEM; CONGTRINH -- NGAYCAPGP; CONGTRINH -- NGAYKC; CONGTRINH -- NGAYHT;
+
+    PHONGBAN -- THUOC [label="1"]; THUOC -- NHANVIEN [label="n"];
+    NHANVIEN -- PHANCONG [label="m"]; PHANCONG -- CONGTRINH [label="n"];
+    PHANCONG -- SLNGAYCONG;
+}`;
+
+        // Biểu đồ Bài 2
+        const dot2 = `
+graph G2 {
+    rankdir=LR;
+    node [shape=box, fontname="Arial", style=filled, fillcolor="#e1f5fe", margin="0.2,0.1"]; CANBO; CONCAI; THANHTICH;
+    node [shape=ellipse, fontname="Arial", style=filled, fillcolor="#fff3e0", margin="0.1,0.05"];
+    MACB [label=<<U>MACB</U>>]; TEN_CB [label="TEN"]; TUOI; DIACHI; DIENTHOAI; VOCHONG;
+    MACON [label=<<U>MACON</U>>]; TEN_CON [label="TEN"]; NGAYSINH; GIOITINH;
+    MATHANHTICH [label=<<U>MATHANHTICH</U>>]; NAMHOC; THANHTICH_ATTR [label="THANHTICH"]; GIAITHUONG;
+    node [shape=diamond, fontname="Arial", style=filled, fillcolor="#e8f5e9", margin="0.1,0.1"]; CO_CON [label="CÓ CON"]; DAT_DUOC [label="ĐẠT ĐƯỢC"];
+
+    CANBO -- MACB; CANBO -- TEN_CB; CANBO -- TUOI; CANBO -- DIACHI; CANBO -- DIENTHOAI; CANBO -- VOCHONG;
+    CONCAI -- MACON; CONCAI -- TEN_CON; CONCAI -- NGAYSINH; CONCAI -- GIOITINH;
+    THANHTICH -- MATHANHTICH; THANHTICH -- NAMHOC; THANHTICH -- THANHTICH_ATTR; THANHTICH -- GIAITHUONG;
+
+    CANBO -- CO_CON [label="1"]; CO_CON -- CONCAI [label="n"];
+    CONCAI -- DAT_DUOC [label="1"]; DAT_DUOC -- THANHTICH [label="n"];
+}`;
+
+        // Biểu đồ Bài 3
+        const dot3 = `
+graph G3 {
+    rankdir=LR;
+    node [shape=box, fontname="Arial", style=filled, fillcolor="#e1f5fe", margin="0.2,0.1"]; 
+    MATHANG; NGUYENVATLIEU; NHACUNGCAP; NGUOIDAIDIEN; PHANXUONG; LENHSANXUAT; PHIEUXUATKHO; PHIEUNHAPKHO; PHIEUNHAP_THUA;
+    
+    node [shape=ellipse, fontname="Arial", style=filled, fillcolor="#fff3e0", margin="0.1,0.05"];
+    MASOMH [label=<<U>MASOMH</U>>]; TENMH; MOTAMH [label="MOTA"]; DONVITINHMH [label="DONVITINH"]; LOAIMH [label="LOAIMATHANG"];
+    MASONVL [label=<<U>MASONVL</U>>]; TENNVL; MOTANVL [label="MOTA"]; DONVITINHNVL [label="DONVITINH"]; SOLUONGTON;
+    MASONCC [label=<<U>MASONCC</U>>]; TENNCC; DIACHI;
+    MADD [label=<<U>MADD</U>>]; TENNDD [label="TEN"]; SDT;
+    MAPX [label=<<U>MAPX</U>>]; TENPX;
+    MALSX [label=<<U>MALSX</U>>]; NGAYVIET;
+    MAPXK [label=<<U>MAPXK</U>>]; NGAYXUAT;
+    MAPNK [label=<<U>MAPNK</U>>]; NGAYNHAP;
+    MAPNT [label=<<U>MAPNT</U>>]; NGAYNHAP_THUA [label="NGAYNHAP"];
+    
+    GIA; NGAYCAPNHAT; SOLUONG_DM [label="SOLUONG"];
+    SOLUONG_LSX [label="SOLUONG"];
+    SOLUONG_XK [label="SOLUONGXUAT"];
+    SOLUONG_NK [label="SOLUONG_THUCTE"]; SOLUONG_CL [label="SOLUONG_CHENHLECH"];
+    SOLUONG_NT [label="SOLUONG_THUA"];
+
+    node [shape=diamond, fontname="Arial", style=filled, fillcolor="#e8f5e9", margin="0.1,0.1"]; 
+    CUNGCAP; DAIDIEN; DINHMUC; CHITIET_LSX [label="CHI TIẾT LSX"]; 
+    THUOC_PX_LSX [label="NHẬN"]; THUOC_PX_PXK [label="XUẤT CHO"]; THEO_LSX [label="DỰA VÀO"]; 
+    CHITIET_PXK [label="CHI TIẾT PXK"]; THUOC_PX_PNK [label="NHẬP TỪ"]; CHITIET_PNK [label="CHI TIẾT PNK"]; 
+    THUOC_PX_PNT [label="TRẢ TỪ"]; CHITIET_PNT [label="CHI TIẾT PNT"];
+
+    MATHANG -- MASOMH; MATHANG -- TENMH; MATHANG -- MOTAMH; MATHANG -- DONVITINHMH; MATHANG -- LOAIMH;
+    NGUYENVATLIEU -- MASONVL; NGUYENVATLIEU -- TENNVL; NGUYENVATLIEU -- MOTANVL; NGUYENVATLIEU -- DONVITINHNVL; NGUYENVATLIEU -- SOLUONGTON;
+    NHACUNGCAP -- MASONCC; NHACUNGCAP -- TENNCC; NHACUNGCAP -- DIACHI;
+    NGUOIDAIDIEN -- MADD; NGUOIDAIDIEN -- TENNDD; NGUOIDAIDIEN -- SDT;
+    PHANXUONG -- MAPX; PHANXUONG -- TENPX;
+    LENHSANXUAT -- MALSX; LENHSANXUAT -- NGAYVIET;
+    PHIEUXUATKHO -- MAPXK; PHIEUXUATKHO -- NGAYXUAT;
+    PHIEUNHAPKHO -- MAPNK; PHIEUNHAPKHO -- NGAYNHAP;
+    PHIEUNHAP_THUA -- MAPNT; PHIEUNHAP_THUA -- NGAYNHAP_THUA;
+
+    NHACUNGCAP -- CUNGCAP [label="m"]; CUNGCAP -- NGUYENVATLIEU [label="n"]; CUNGCAP -- GIA;
+    NHACUNGCAP -- DAIDIEN [label="1"]; DAIDIEN -- NGUOIDAIDIEN [label="n"];
+    MATHANG -- DINHMUC [label="m"]; DINHMUC -- NGUYENVATLIEU [label="n"]; DINHMUC -- NGAYCAPNHAT; DINHMUC -- SOLUONG_DM;
+    
+    LENHSANXUAT -- THUOC_PX_LSX [label="n"]; THUOC_PX_LSX -- PHANXUONG [label="1"];
+    LENHSANXUAT -- CHITIET_LSX [label="m"]; CHITIET_LSX -- MATHANG [label="n"]; CHITIET_LSX -- SOLUONG_LSX;
+    
+    PHIEUXUATKHO -- THUOC_PX_PXK [label="n"]; THUOC_PX_PXK -- PHANXUONG [label="1"];
+    PHIEUXUATKHO -- THEO_LSX [label="n"]; THEO_LSX -- LENHSANXUAT [label="1"];
+    PHIEUXUATKHO -- CHITIET_PXK [label="m"]; CHITIET_PXK -- NGUYENVATLIEU [label="n"]; CHITIET_PXK -- SOLUONG_XK;
+
+    PHIEUNHAPKHO -- THUOC_PX_PNK [label="n"]; THUOC_PX_PNK -- PHANXUONG [label="1"];
+    PHIEUNHAPKHO -- CHITIET_PNK [label="m"]; CHITIET_PNK -- MATHANG [label="n"]; CHITIET_PNK -- SOLUONG_NK; CHITIET_PNK -- SOLUONG_CL;
+
+    PHIEUNHAP_THUA -- THUOC_PX_PNT [label="n"]; THUOC_PX_PNT -- PHANXUONG [label="1"];
+    PHIEUNHAP_THUA -- CHITIET_PNT [label="m"]; CHITIET_PNT -- NGUYENVATLIEU [label="n"]; CHITIET_PNT -- SOLUONG_NT;
+}`;
+
+        // Render SVG
+        viz.renderSVGElement(dot1).then(function(element) {
+            document.getElementById('er1').innerHTML = "";
+            document.getElementById('er1').appendChild(element);
+        });
+        viz.renderSVGElement(dot2).then(function(element) {
+            document.getElementById('er2').innerHTML = "";
+            document.getElementById('er2').appendChild(element);
+        });
+        viz.renderSVGElement(dot3).then(function(element) {
+            document.getElementById('er3').innerHTML = "";
+            document.getElementById('er3').appendChild(element);
+        });
+    </script>
+</body>
+</html>
